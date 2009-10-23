@@ -139,10 +139,8 @@ Example:
       :source_files => ["app/javascripts/application.js", "app/javascripts/**/*.js"]
     )
     
-    # Generate a Sprockets::Concatenation object from the source files
-    concatenation = secretary.concatenation
-    # Write the concatenation to disk
-    concatenation.save_to("public/sprockets.js")
+    # Generate the concatenation from the source files and write it to disk
+    secretary.save_output_to("public/sprockets.js")
     
     # Install provided assets into the asset root
     secretary.install_assets

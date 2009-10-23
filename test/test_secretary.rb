@@ -82,6 +82,16 @@ class SecretaryTest < Test::Unit::TestCase
     assert_equal content_of_fixture("src/script_with_comments.js"), secretary.concatenation.to_s
   end
   
+  def test_save_output_to
+    secretary = Sprockets::Secretary.new(:root => FIXTURES_PATH)
+    filename = File.join(FIXTURES_PATH, "output.js")
+    secretary.add_source_file("src/foo.js")
+    secretary.save_output_to(filename)
+    assert_equal secretary.output, IO.read(filename)
+    assert_equal secretary.concatenation.mtime, File.mtime(filename)
+    File.unlink(filename)
+  end
+  
   protected
     def paths_relative_to(root, *paths)
       paths.map { |path| File.join(root, path) }

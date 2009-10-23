@@ -51,6 +51,17 @@ module Sprockets
       preprocessor.concatenation
     end
     
+    def output
+      concatenation.to_s
+    end
+    
+    def save_output_to(filename)
+      timestamp = concatenation.mtime
+      File.open(filename, "w") { |file| file.write(output) }
+      File.utime(timestamp, timestamp, filename)
+      true
+    end
+    
     def install_assets
       if @options[:asset_root]
         preprocessor.asset_paths.each do |asset_path|

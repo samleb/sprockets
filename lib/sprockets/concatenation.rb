@@ -22,10 +22,7 @@ module Sprockets
     end
     
     def save_to(filename)
-      timestamp = mtime
-      File.open(filename, "w") { |file| file.write(to_s) }
-      File.utime(timestamp, timestamp, filename)
-      true
+      raise "`Sprockets::Concatenation#save_to` is no longer supported, use `Sprockets::Secretary#save_output_to` instead."
     end
 
     protected

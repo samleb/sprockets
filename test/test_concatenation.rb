@@ -18,11 +18,4 @@ class ConcatenationTest < Test::Unit::TestCase
     @concatenation.record(source_line("world\n"))
     assert_equal "hello\nworld\n", @concatenation.to_s
   end
-  
-  def test_save_to
-    filename = File.join(FIXTURES_PATH, "output.js")
-    @concatenation.save_to(filename)
-    assert_equal @concatenation.to_s, IO.read(filename)
-    File.unlink(filename)
-  end
 end

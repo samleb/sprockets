@@ -119,7 +119,7 @@ begin
     :source_files => configuration[:source_files]
   )
   
-  secretary.concatenation.save_to(File.join(sprockets_root, configuration[:output_file])) if generate_output_file?
+  secretary.save_output_to(File.join(sprockets_root, configuration[:output_file])) if generate_output_file?
   respond_with(:content => secretary.concatenation.to_s, :type => "text/javascript")
   
 rescue Exception => e
