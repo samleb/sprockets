@@ -28,6 +28,10 @@ OptionParser.new do |opts|
     options[:asset_root] = directory
   end
   
+  opts.on("-m", "--[no-]minify", "Minifies output (requires 'yui-compressor' gem)") do |minify|
+    options[:minify] = minify
+  end
+  
   opts.on_tail("-h", "--help", "Shows this help message") do
     opts.show_usage
   end

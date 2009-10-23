@@ -82,6 +82,16 @@ class SecretaryTest < Test::Unit::TestCase
     assert_equal content_of_fixture("src/script_with_comments.js"), secretary.concatenation.to_s
   end
   
+  def test_secretary_passes_minification_options_through_to_minifier
+    secretary = Sprockets::Secretary.new(:root => FIXTURES_PATH, :minify => true)
+    secretary.add_source_file("src/script_with_room_for_minification.js")
+    assert_equal %(function foo(){var bar};), secretary.output
+
+    secretary = Sprockets::Secretary.new(:root => FIXTURES_PATH, :minify => { :munge => true })
+    secretary.add_source_file("src/script_with_room_for_minification.js")
+    assert_equal %(function foo(){var a};), secretary.output
+  end
+  
   def test_save_output_to
     secretary = Sprockets::Secretary.new(:root => FIXTURES_PATH)
     filename = File.join(FIXTURES_PATH, "output.js")

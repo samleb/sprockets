@@ -5,7 +5,8 @@ module Sprockets
       :load_path      => [],
       :source_files   => [],
       :expand_paths   => true,
-      :strip_comments => true
+      :strip_comments => true,
+      :minify         => false
     }
 
     attr_reader :environment, :preprocessor
@@ -52,7 +53,7 @@ module Sprockets
     end
     
     def output
-      concatenation.to_s
+      minify(concatenation.to_s)
     end
     
     def save_output_to(filename)
@@ -113,6 +114,25 @@ module Sprockets
       
       def path_pieces(path)
         path.split(File::SEPARATOR)
+      end
+      
+      def minify(output)
+        if minifier_options = @options[:minify]
+          require_yui_compressor
+          minifier_options = {} if minifier_options == true
+          YUI::JavaScriptCompressor.new(minifier_options).compress(output)
+        else
+          output
+        end
+      end
+      
+      def require_yui_compressor
+        begin
+          require "yui/compressor"
+        rescue ::LoadError
+          require "rubygems"
+          require "yui/compressor"
+        end
       end
   end
 end
